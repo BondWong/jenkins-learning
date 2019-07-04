@@ -1,5 +1,10 @@
 pipeline {
     agent { docker { image 'maven:3.3.3' } }
+
+    environment {
+      DB_ENGINE = 'sqlite'
+    }
+
     stages {
         stage('build') {
             steps {
@@ -9,6 +14,7 @@ pipeline {
               timeout(time: 3, unit: 'MINUTES') {
                 sh 'echo " Hello World"'
               }
+              sh 'printenv'
               sh '''
                 echo "Multiline shell steps works too"
                 ls -lah
@@ -16,6 +22,7 @@ pipeline {
             }
         }
     }
+
     post {
       always {
         echo 'This pipeline finsihed'
